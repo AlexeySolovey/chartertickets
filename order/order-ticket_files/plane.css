@@ -1,0 +1,54 @@
+.tail-aircutter-flip {
+    transform: scale(-1,1);
+}
+
+.plane-wrap {
+	overflow: hidden;
+	width: 100%;
+    font: normal 16px "Open Sans", Arial;
+    line-height: normal;
+    font-family: "Open Sans", Arial;
+    line-height: 24px;
+    color: #212121;
+}
+
+.place-man {
+	display: none;
+}
+.place {
+	fill:#FFFFFF;
+	stroke:#A4C2EC;
+}
+.can-choose .place:hover {
+	stroke:#eccea4;
+}
+.place-selected {
+	 fill: #64A433;
+	 fill-opacity: 0.25;
+	 stroke: #89BF74;
+}
+.place-selected .place-man {
+	display: inherit;
+	stroke: #89BF74;
+}
+.place-disabled {
+	fill:#FFFFFF;
+	stroke:#CCCCCC;
+}
+
+.place-disabled-user {
+	fill:#FFFFFF;
+	stroke:#CCCCCC;
+	fill-opacity: 0.25;
+}
+
+.place-disabled-user .place-man {
+	display: inherit;
+	stroke: #CCCCCC;
+}
+
+.place-cost {
+	font-size: 14px;
+	stroke-width: 1px;
+	letter-spacing: 1.1px;
+}

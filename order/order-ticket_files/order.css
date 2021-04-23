@@ -1,0 +1,565 @@
+#order-second-step,
+#return-to-passengers {
+    display: none;
+}
+
+.fields-block > div {
+    margin-bottom: 10px;
+}
+
+#order-second-step {
+    display: none;
+}
+
+/* ======================================== */
+/* ============  tickets  ================ */
+/* ======================================== */
+#ticket-ways .table {
+    margin-bottom: 0;
+}
+#ticket-ways .table td.wrap-additional-control{
+    border-top: inherit;
+    padding: 0;
+    padding-bottom: 15px;
+}
+
+.wrap-additional-links span{
+    display: inline-block;
+    width: 150px;
+    height: 100px;
+    cursor: pointer;
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 10px 0;
+    transition: background-color 1.5s;
+}
+
+.wrap-additional-links span:hover{
+    background-color: rgba(255, 152, 0, .2);
+}
+
+.wrap-additional-links .link {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+.wrap-additional-links p{
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.nutrition-link{
+    background: url(./images/catering.svg) no-repeat;
+    background-size: auto;
+    background-position: center;
+}
+.baggages-link{
+    background: url(./images/baggage.svg) no-repeat;
+    background-size: auto;
+    background-position: center;
+}
+.place-link{
+    background: url(./images/seat.svg) no-repeat;
+    background-size: auto;
+    background-position: center;
+}
+
+/* ======================================== */
+/* ============  plugins  ================ */
+/* ======================================== */
+#expirationTimer{
+    color: red;
+}
+
+.plane-wrap svg{
+    margin-top: -330px;
+    min-width: 300px;
+}
+
+
+/* ======================================== */
+/* ============ general ================ */
+/* ======================================== */
+.fields-block label{
+    white-space: nowrap;
+}
+
+.fields-block input,
+.fields-block select{
+    width: 100%;
+}
+.float-right{
+    float: right !important ;
+}
+
+.d-none {
+    display: none;
+}
+
+.align-center {
+    text-align: center !important;
+}
+[data-toggle="collapse"]:hover {
+    cursor: pointer;
+    color: #fbb450;
+}
+
+[data-toggle="collapse"] > .fa {
+    vertical-align: bottom;
+    transform: rotate(90deg);
+}
+.order-footer .btn {
+    font-size: 20px !important;
+    padding: .5rem 2rem;
+    white-space: normal;
+    width:240px;
+    margin: 10px;
+}
+.collapsed[data-toggle="collapse"] > .fa {
+    transform: rotate(0);
+}
+
+.no-wrap{
+    white-space: nowrap !important;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.error-text{
+    font-size: 14px;
+}
+
+/* ======================================== */
+/* ============ total summ ================ */
+/* ======================================== */
+.total-sum-wrap{position: relative; width: 370px;}
+.total-sum-wrap .ticket-price{
+    white-space: nowrap;
+    display: inline-block
+}
+#total-sum-details{
+    text-align: left;
+    padding: 10px 0;
+}
+/* ======================================== */
+/* ============ data block ================ */
+/* ======================================== */
+.country-phone-selector {
+    display: flex;
+}
+.country-phone-selected{
+    width: 75px;
+}
+.country-phone-options{
+    width: calc(100% - 30px);
+    overflow: hidden;
+    height: 200px;
+    background: #fff;
+}
+#country-phone-search{
+    width: 100%;
+}
+#phone-list{
+    height: 165px;
+    overflow-y: auto;
+}
+
+#contact-phone{
+    width: calc(100% - 60px);
+}
+/* ======================================== */
+/* ========= additional-goods ============= */
+/* ======================================== */
+.order-body-goods{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.good-box{
+    width: 200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.good-box-title{
+    margin-top: 5px;
+}
+
+.good-img-wraper{
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.good-box .img{
+    width: 100%;
+}
+
+.good-box-price{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+}
+
+.good-box-control{
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #dddd;
+    border-radius: 5px;
+    display: none;
+}
+
+.good-box-price > input[type=text]{
+    text-align-last: center;
+    border: none; 
+    font-weight: 600;
+    color: #0e5cb3; 
+}
+
+.additional-goods-wrap{
+    margin-bottom: 70px;
+}
+
+.good-box-choose-btn{
+    margin: 10px 0;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.good-box.not-valid .good-box-control{
+       display: none !important;
+}
+
+.good-box.not-valid .good-box-choose-btn{
+    display: block !important;
+}
+
+#nutrition-collapse.collapse:not(.in),
+#baggages-collapse.collapse:not(.in),
+#places-collapse.collapse:not(.in){
+    overflow: hidden;
+    display: block;
+}
+
+#nutrition-collapse.collapse:not(.in){
+    height: 200px;
+}
+
+#nutrition-collapse.active.collapse:not(.in){
+    height: 522px;
+}
+
+#baggages-collapse.collapse:not(.in){
+    height: 150px;
+}
+
+#places-collapse.collapse:not(.in){
+    height: 200px;
+}
+
+/****** passenger-info ********/
+.passenger-info .passenger-good-item {
+    padding: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.passenger-info .closebtn {
+    margin-left: 15px;
+    color: red;
+    text-align: left;    
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+  
+.passenger-info .closebtn:hover {
+    color: black;
+}
+
+.passenger-info .closebtn i{
+    font-size:28px;
+}
+
+.passenger-info .name-box{
+    border: 2px solid #dddd;
+}
+
+.passenger-info .btn-name{
+    margin: 0;
+    padding: 10px 0;
+}
+
+.passenger-info .btn-name > a{
+    width: 100%;
+    text-decoration: none;
+}
+
+
+
+
+/* ======================================== */
+/* ========= passenger info ========= */
+/* ======================================== */
+
+.passenger-info .accordion .fa {
+    margin-left: 12px;
+    color: #23527c;
+    font-size: 23px;
+}
+
+#all-passengers-info-error-form{
+    font-size: 20px;
+    color: white;
+    background: #e94160;
+    padding: 5px 10px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+#all-passengers-info-error-form:hover{
+    opacity: .8;
+}
+.rule-block{
+    margin-top: 30px;
+}
+.rule-item {
+    padding-bottom: 10px;
+}
+.rule-item .agreement{
+    display: inline;
+    width: 3350px;
+}
+.rule-item .error-text{
+    display: block;
+}
+.rule-item .error-rules {
+    margin-left: 19px;
+}
+/* ======================================== */
+/* ================ promo ================= */
+/* ======================================== */
+.ticket-header #promo_text{
+    margin-top: 6px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    float: left;
+}
+.ticket-header input[type=button] {
+    float: left;
+}
+.ticket-header input[type=text] {
+    width: 150px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    float: left;
+}
+
+/* ======================================== */
+/* ================ modal ================= */
+/* ======================================== */
+.error-icon{
+    color: #ff9800;
+}
+.modal-wellcome .modal-title {
+    padding-bottom: 2%;
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.41);
+    font-size:20px;
+    text-align : center;
+    text-transform: uppercase;
+}
+
+.modal-wellcome .img {
+    font-size: 140px;
+    margin-top: 30px;
+}
+
+.modal-wellcome h5{
+    font-size: 25px;
+    text-align: left;
+}
+
+.modal-wellcome ul {
+    list-style-image: url('http://icons.iconarchive.com/icons/yusuke-kamiyamane/fugue/16/tick-small-icon.png');
+    float: left; 
+    clear: right;
+    padding-left: 20px;
+    text-align: left;
+}
+.modal-wellcome .contact{
+    text-align: center;
+}
+.modal-wellcome .contact h5{
+    text-align: center;
+}
+
+.modal-wellcome .contact .fa{
+    color: #34b2a4;
+}
+
+
+/* ======================================== */
+/* ================ other ================= */
+/* ======================================== */
+
+.navbar-fixed-top {
+    z-index: 630;
+}
+
+.viewbox-button-prev, 
+.viewbox-button-next {
+    display: none;
+}
+#buy-buttons.disabled-buttons button{
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: .65;
+}
+/* ======================================== */
+/* ==============fondy===================== */
+/* ======================================== */
+
+#our-fin-text{
+    display: none;
+}
+
+#checkout_fondy{
+	width:450px;
+	margin:0 auto;
+}
+#checkout_fondy_header{
+	padding:0 20px;
+	line-height:50px;
+	border-bottom:1px solid #ccc;
+}
+#checkout_fondy_wrapper{
+	background-color:#fff;
+	height:290px;
+}
+#checkout_fondy_message{
+	padding:0px 20px;
+	font-size:14px;
+    margin-bottom:18px;
+}
+#checkout_fondy_loader{
+	padding:20px;
+	text-align:center;
+}	
+#checkout_fondy_loader .loader{
+    color:#949494;
+    text-transform:uppercase;
+    margin-bottom:20px;
+}
+#checkout_fondy_button{
+	padding:25px;
+	text-align:center;
+	cursor:pointer;
+	background-color:lightgreen;
+	color:#fff;
+}
+#checkout_fondy_button:hover {
+    background-color:green;
+}
+
+/* ======================================== */
+/* ==============@media===================== */
+/* ======================================== */
+
+@media screen and (max-width: 991px){
+    .plane-wrap svg{
+        margin-top: -240px;
+    }
+    #contact-phone{
+        width: calc(100% - 85px);
+    }
+    .modal-wellcome .img{
+        display: none;
+    }
+    .modal-wellcome h5 {
+        text-align: center;
+    }
+    .modal-wellcome ul{
+        float: inherit;
+        list-style: none;
+        text-align: center;
+        padding-left: 0;
+    }
+    .total-sum-wrap{font-size: 14px;}
+}
+
+@media screen and (max-width: 650px){
+    .order-body-goods{
+        margin: 0;
+    }
+
+    .good-box{
+        padding-bottom: 20px;
+    }
+
+    #nutrition-collapse.active.collapse:not(.in) {
+        height: 510px;
+    }
+    
+}
+
+@media screen and (max-width: 550px) {
+    .order-body-goods{
+        justify-content: space-between;
+    }
+    .order-footer button{
+        width: calc(100% - 20px) !important;
+    }
+    .btn.rulesModal {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .good-box-control{
+        width: 115px;
+    }
+
+    .good-img-wraper{
+        height: 140px;
+    }
+
+    .good-box {
+        width: 135px;
+    }
+
+    .good-box-numbers > i{
+        width: 100px;
+    }
+
+    .order-body-goods{
+        justify-content: center;
+    }
+
+    .good-box{
+        margin-top: 30px;
+    }
+
+    .plane-wrap svg{
+        margin-top: -150px;
+    }
+    .total-sum-wrap{width: 310px;}
+}
+
+/* ======================================== */
+/* ======================================== */
+/* ======================================== */
