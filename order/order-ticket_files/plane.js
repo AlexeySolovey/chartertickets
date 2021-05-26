@@ -255,6 +255,7 @@
 
 
 		let canChoose = options.canChoose || 'can-choose';
+		let heightBodyStep = 76;
 		let stepsArray = [];
 		let isPlaneHasError = false;
 		let positionArrayX = [];
@@ -288,18 +289,23 @@
 				switch (totalplaceInRow) {
 					case 2:
 						viewBoxWidth = 220;
+						heightBodyStep = 72;
 						break;
 					case 4:
 						viewBoxWidth = 300;
+						heightBodyStep = 74;
 						break;
 					case 6:
 						viewBoxWidth = 380;
+						heightBodyStep = 76;
 						break;
 					case 8:
 						viewBoxWidth = 460;
+						heightBodyStep = 78;
 						break;
 					case 10:
 						viewBoxWidth = 540;
+						heightBodyStep = 80;
 						break;
 					}
 			} else {
@@ -307,18 +313,23 @@
 				switch (totalplaceInRow) {
 					case 2:
 						viewBoxWidth = 400;
+						heightBodyStep = 72;
 						break;
 					case 4:
 						viewBoxWidth = 480;
+						heightBodyStep = 74;
 						break;
 					case 6:
 						viewBoxWidth = 560;
+						heightBodyStep = 76;
 						break;
 					case 8:
 						viewBoxWidth = 640;
+						heightBodyStep = 78;
 						break;
 					case 10:
 						viewBoxWidth = 720;
+						heightBodyStep = 80;
 						break;
 				}
 			}
@@ -327,14 +338,10 @@
 		resizeFunc();
 
 		if(totalRows > 10) {
-			const _heightBodyStep = 60;
-			//const _heightViewBoxStep = 60;
-			const _additionalBodySpace = _heightBodyStep * (totalRows - 10);
-			//const _additionalViewBoxHeight = _heightViewBoxStep * (totalRows - 10);
+			const _additionalBodySpace = heightBodyStep * (totalRows - 10);
 			planeBodyHeight += _additionalBodySpace;
 			tailPositionTop += _additionalBodySpace;
 			viewBoxHeight += _additionalBodySpace;
-			//viewBoxHeight += _additionalViewBoxHeight;
 		}
 
 		switch(true) {
@@ -357,13 +364,13 @@
 
 
 		function getPositions() {
-			let _xStart = 140;
-			let _yStart = 340;
+			let _xStart = 140; // отступ слева
+			let _yStart = 340; // отступ сверху
 			let _rowsStart = 360;
 			let _placeNameStart = 160;
 			let _xStep = 40;
-			let _yStep = 60;
-			let _rowsStep = 60;
+			let _yStep = 70;
+			let _rowsStep = 70; // отступ сверху для номерации рядов
 			let _middleStep = 40;
 			
 			for(let i = 0; i < totalplaceInRow; i++) {
@@ -495,6 +502,7 @@
                 <path d="M32,13 L32,25 L37,25 L37,15 C37,13.8954305 36.1045695,13 35,13 L32,13 Z"></path>
                 <path d="M1,25 L1,29 C1,30.1045695 1.8954305,31 3,31 L35,31 C36.1045695,31 37,30.1045695 37,29 L37,25 L1,25 Z"></path>
                 <text class="place-cost" text-anchor="middle" x="20" y="45">{place_cost}</text>
+				<text class="place-currency" text-anchor="middle" x="20" y="55">{place_currency}</text>
             </g>
 	    </g>
 		`
@@ -521,9 +529,10 @@
 			_tempHtml = _tempHtml.replace('{position_row}', item.row);
 			_tempHtml = _tempHtml.replace('{place_class}', item.class);
 			_tempHtml = _tempHtml.replace('{position_place}', item.place);
-	    	_tempHtml = _tempHtml.replaceAll('{x_position}', item.x);	
-	    	_tempHtml = _tempHtml.replaceAll('{y_position}', item.y);
+	    	_tempHtml = _tempHtml.replace(/{x_position}/g, item.x);	
+	    	_tempHtml = _tempHtml.replace(/{y_position}/g, item.y);
 	    	_tempHtml = _tempHtml.replace('{place_cost}', item.cost);	
+	    	_tempHtml = _tempHtml.replace('{place_currency}', 'грн'); // to do	
 	    	_seatsHtml += _tempHtml;
 	    });
 		
@@ -555,8 +564,8 @@
 		_totalHtml = _totalHtml.replace('{view_box_height}', planeStructure[totalplaceInRow]['viewBoxHeight']);
 		_totalHtml = _totalHtml.replace('{view_box_width}', planeStructure[totalplaceInRow]['viewBoxWidth']);
 		_totalHtml = _totalHtml.replace('{wing_left_position_left}', planeStructure[totalplaceInRow]['wingLeftPositionLeft']);
-		_totalHtml = _totalHtml.replaceAll('{wing_height}', planeStructure[totalplaceInRow]['wingHeight']);
-		_totalHtml = _totalHtml.replaceAll('{wing_position_top}', planeStructure[totalplaceInRow]['wingPositionTop']);
+		_totalHtml = _totalHtml.replace(/{wing_height}/g, planeStructure[totalplaceInRow]['wingHeight']);
+		_totalHtml = _totalHtml.replace(/{wing_position_top}/g, planeStructure[totalplaceInRow]['wingPositionTop']);
 		_totalHtml = _totalHtml.replace('{plane_nose}', planeStructure[totalplaceInRow]['nose']);
 		_totalHtml = _totalHtml.replace('{plane_body_width}', planeStructure[totalplaceInRow]['planeBodyWidth']);
 		_totalHtml = _totalHtml.replace('{plane_body_width_in}', planeStructure[totalplaceInRow]['planeBodyWidth'] - 12);
@@ -567,8 +576,8 @@
 		_totalHtml = _totalHtml.replace('{tail_wing}', planeStructure[totalplaceInRow]['tailWing']);
 		_totalHtml = _totalHtml.replace('{tail_wing_top_left}', planeStructure[totalplaceInRow]['tailWing']/2);
 		_totalHtml = _totalHtml.replace('{tail_wing_top}', planeStructure[totalplaceInRow]['tailWing'] / 2);
-		_totalHtml = _totalHtml.replaceAll('{tail_wing_left}', planeStructure[totalplaceInRow]['tailWing']);
-		_totalHtml = _totalHtml.replaceAll('{row_x_position}', planeStructure[totalplaceInRow]['rowX']);
+		_totalHtml = _totalHtml.replace(/{tail_wing_left}/g, planeStructure[totalplaceInRow]['tailWing']);
+		_totalHtml = _totalHtml.replace(/{row_x_position}/g, planeStructure[totalplaceInRow]['rowX']);
 
 
 		ths.html(_totalHtml);

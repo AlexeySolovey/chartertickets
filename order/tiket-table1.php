@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="ticket-ones" data-hash="BUS_KBP" data-exist-baggage="1" data-exist-nutrition="0" data-exist-places="0">
+        <tr class="ticket-ones" data-hash="BUS_KBP" data-exist-baggage="0" data-exist-nutrition="0" data-exist-places="0">
             <td>
                 <span class="table-header-mobile">Вылет</span>
                 <div class="text-center">
@@ -52,15 +52,15 @@
             <td colspan="6" class="wrap-additional-control">
                 <div class="wrap-additional-links">
                     <span class="item-additional-link">
-                        <i class="link nutrition-link" onclick="moveToAdditionalPage('nutrition', 'TIA_KBP')"></i>
+                        <i class="link nutrition-link" onclick="historyGoToAdditional('nutrition', 'TIA_KBP')"></i>
                         <p class="additional-min-price" data-hash="TIA_KBP" data-service="nutrition">от: 0 грн</p>
                     </span>
                     <span class="item-additional-link">
-                        <i class="link baggages-link" onclick="moveToAdditionalPage('baggages', 'TIA_KBP')"></i>
+                        <i class="link baggages-link" onclick="historyGoToAdditional('baggages', 'TIA_KBP')"></i>
                         <p class="additional-min-price" data-hash="TIA_KBP" data-service="baggages">от: 0 грн</p>
                     </span>
                     <span class="item-additional-link">
-                        <i class="link place-link" onclick="moveToAdditionalPage('places', 'TIA_KBP')"></i>
+                        <i class="link place-link" onclick="historyGoToAdditional('places', 'TIA_KBP')"></i>
                         <p class="additional-min-price" data-hash="TIA_KBP" data-service="places">от: 0 грн</p>
                     </span>
                 </div>

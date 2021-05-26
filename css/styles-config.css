@@ -1,0 +1,123 @@
+p.time-is-out{
+	font-size:24px;
+}
+.error-input{
+	border:1px solid #f00;
+}
+
+.error-text{
+	color: #f00;
+	font-weight:bold;
+}
+
+.modal-body {
+	text-align:center;
+}
+
+.error-rules{
+	margin-left:5px;
+}
+
+.form-check{
+	display:block !important;
+}
+
+.popup .popup-pick-city-container{
+	min-width: 150px;
+}
+
+.day.Available, .highlight{
+	background:#c2e7b6;
+}
+.day.FewSeats{
+	background:#fff0a8;
+}
+
+i.Available, i.ManySeats{
+	color:green;
+}
+
+i.FewSeats{
+	color:orange;
+}
+
+i.NotAvailable, i.StopSale, i.Cancelled, i.NonSaleable, i.OnRequest{
+	color:red;
+}
+
+#fly-from, #fly-to, #passengers{
+	cursor:pointer;
+}
+
+.date {
+	width:auto !important;
+}
+
+.content{
+	background:transparent;
+}
+.result-wrapper{
+    padding: 5px;
+	background:#fff;
+	border-radius:5px;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+	background:#fff;
+    opacity: 1;
+}
+
+.text-block{
+	background:#fff;
+	padding:20px;
+	border-radius:5px;
+}
+.text-block input, .text-block textarea{
+	width:500px;
+	margin-bottom:10px;
+}
+
+.text-block .order{
+	margin-left:25px;
+}
+
+.main-block-on-request .countries span {
+	 padding: 15px;
+	 font-size: 21px;
+	 cursor: pointer;
+	 text-decoration: underline;
+	 color: #005891;
+	 display: inline-block;
+ }
+.main-block-on-request .countries span.selected a{
+	color:#fbb450;
+}
+.main-block-on-request .cities span {
+	padding: 15px;
+	font-size: 18px;
+	cursor: pointer;
+	text-decoration: underline;
+	display: inline-block;
+}
+.main-block-on-request .cities a {
+	color: #28a42d;
+}
+.main-block-on-request .cities span.selected a{
+	color:#00cc28;
+}
+.navbar-default{
+	border-color:#000;
+}
+
+.dropdown-menu {
+	z-index:1000 !important;
+}
+
+
+
+#modal-pay .modal-body {
+	padding:0px !important;
+}
+
+.datepicker-dropdown{
+   z-index: 10000 !important;	
+}

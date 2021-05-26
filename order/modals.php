@@ -12,6 +12,8 @@
             </div>
             <div class="modal-body">
                 <i class="load-filters fa fa-cog fa-spin fa-5x"></i>
+                <p class="system-loading">Ожидание платежной системы</p>
+                <p class="payment-loading">Ваш платеж обрабатывается</p>
                 <div id="our-fin-text">
                     <p>Спасибо за обращение в нашу компанию.</p>
                     <p>Ваш заказ принят в работу и будет обработан в течение нескольких минут. Подтверждение будет
@@ -113,9 +115,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">×</span>
-                </button>
+                <span id='modal-order-error-close-wrap'></span>
                 <h4 class="modal-title">Request Error</h4>
             </div>
             <div class="modal-body">
@@ -123,7 +123,7 @@
                 <h5 class="error-status"></h5>
                 <div class="error-message"></div>
             </div>
-            <div class="modal-footer" id="modal-footer"></div>
+            <div class="modal-footer" id="modal-error-footer"></div>
         </div>
     </div>
 </div>

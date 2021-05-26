@@ -270,6 +270,49 @@
     height: 200px;
 }
 
+#nutrition-collapse.empty.collapse:not(.in),
+#nutrition-collapse.empty.active.collapse:not(.in),
+#baggages-collapse.empty.collapse:not(.in),
+#places-collapse.empty.collapse:not(.in){
+    height: inherit;
+}
+
+.collapse-controll{
+   text-align: center;
+}
+
+[data-toggle="collapse"] ~ .collapse-controll #nutrition-show-all-button,
+[data-toggle="collapse"] ~ .collapse-controll #baggages-show-all-button,
+[data-toggle="collapse"] ~ .collapse-controll #places-show-all-button{
+    display: none;
+}
+[data-toggle="collapse"] ~ .collapse-controll #nutrition-hide-all-button,
+[data-toggle="collapse"] ~ .collapse-controll #baggages-hide-all-button,
+[data-toggle="collapse"] ~ .collapse-controll #places-hide-all-button{
+    display: inline-block;
+}
+
+.collapsed[data-toggle="collapse"] ~ .collapse-controll #nutrition-show-all-button,
+.collapsed[data-toggle="collapse"] ~ .collapse-controll #baggages-show-all-button,
+.collapsed[data-toggle="collapse"] ~ .collapse-controll #places-show-all-button{
+    display: inline-block;
+}
+
+
+.collapsed[data-toggle="collapse"] ~ .collapse-controll #nutrition-hide-all-button,
+.collapsed[data-toggle="collapse"] ~ .collapse-controll #baggages-hide-all-button,
+.collapsed[data-toggle="collapse"] ~ .collapse-controll #places-hide-all-button{
+    display: none;
+}
+
+
+#nutrition-collapse.empty + .collapse-controll,
+#baggages-collapse.empty + .collapse-controll,
+#places-collapse.empty + .collapse-controll{
+    display: none !important;
+}
+
+
 /****** passenger-info ********/
 .passenger-info .passenger-good-item {
     padding: 5px;
@@ -373,6 +416,9 @@
 /* ======================================== */
 /* ================ modal ================= */
 /* ======================================== */
+.system-loading, .payment-loading{
+    display: none;
+}
 .error-icon{
     color: #ff9800;
 }
@@ -425,7 +471,8 @@
 .viewbox-button-next {
     display: none;
 }
-#buy-buttons.disabled-buttons button{
+#buy-buttons.disabled-buttons button,
+#additional-services-button.disabled{
     cursor: not-allowed;
     pointer-events: none;
     opacity: .65;

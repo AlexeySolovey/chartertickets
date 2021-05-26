@@ -2,9 +2,9 @@
  general variable
  **********************/
 
-const baseUrl = 'https://chartertickets.com.ua';
+// const baseUrl = 'https://chartertickets.com.ua';
 // const baseUrl = 'http://65.21.55.95';
-// const baseUrl ='https://anytickets.com.ua';
+const baseUrl ='https://anytickets.com.ua';
 const countriesList = [
     {data: '+380', co: 'ua', label: 'Україна'},
     {data: '+61', co: 'au', label: 'Австралія'},
@@ -16,16 +16,13 @@ const countriesList = [
 ];
 
 
-let additionalData = {
-    baggages : {},
-    nutrition: {},
-    places   : {}
-};
+let additionalData;
 let formValid;
 let isAdditionalData;
 let isFormSent = true;
 let isSendRepeat = false;
 let isSendPayment = false;
+let getAllAdditionalData = [];
 let liqRes;
 let tiketDiscount = null;
 let usersArray = [];
@@ -46,6 +43,7 @@ const yesterdayInput = stringifyInputDate(new Date(dateToday - oneDay));
 const minDataInput = stringifyInputDate(new Date(dateToday - fiftyYears));
 const maxDataInput = stringifyInputDate(new Date(dateToday + fiftyYears));
 const sendFormUrl = '/api/order/create-attempt';
+const searchLink = $('#link_for_search').attr('href');
 const paymentUrl = '/api/order/create-attempt-payment';
 const ways = $('#ticket-ways').find('table .ticket-ones');
 const serviceTypes = ['nutrition', 'baggages', 'places'];
@@ -211,7 +209,7 @@ const navTabHtml = `
 const navTabItemHtml = `
     <li class="nav-item {active}">
         <a class="nav-link" data-toggle="tab" data-user-id="{user_id}" data-tab-type="{tab_type}" 
-            data-hash="{hash}" href="#{tab_id}">{hash}</a>
+            data-hash="{hash}" data-service="{service}" data-has-content="{has-content}" href="#{tab_id}">{hash}</a>
     </li>
 `
 // content
@@ -269,9 +267,16 @@ const goodItemHtml = `
 const placesItemHtml = `<div class="places-wrap"></div>`;
 
 const modalCloseButtonHtml = `<button type="button" class="btn btn-default" data-dismiss="modal">${lajax.t('Закрыть')}</button>`;
+const modalCloseCrossHtml =`<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>`;
 const modalOkButtonHtml = `<button type="button" class="btn btn-default" data-dismiss="modal">${lajax.t('Хорошо')}</button>`;
+const modalUpdateAdditionalServices = `<button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateAdditionalServices()">${lajax.t('Хорошо')}</button>`;
+const modalUpdateAdditionalServicesCross = `<button type="button" class="close" data-dismiss="modal" onclick="updateAdditionalServices()"><span>×</span></button>`;
 const modalReloadPageButtonHtml = `<button type="button" class="btn btn-primary" onclick="reloadPage()">${lajax.t('Хорошо')}</button>`;
+const modalReloadPageCrossHtml = `<button type="button" class="close" onclick="reloadPage()"><span>×</span></button>`;
 const modalRedirectToMainPageButtonHtml = `<button type="button" class="btn btn-primary" onclick="redirectToMainPage()">${lajax.t('Хорошо')}</button>`;
+const modalRedirectToMainPageCrossHtml = `<button type="button" class="close" onclick="redirectToMainPage()"><span>×</span></button>`;
+
+
 /*get total passengers*/
 
 const detailHtml = `<div>{service}: <b>{price} ${lajax.t('грн')}</b></div>`;
@@ -337,26 +342,44 @@ let orderForm = {
     places       : null,
     paymentMethod: null  // 'LiqPay', 'Fondy', 'Portmone' (unsupported now)
 };
+function getAdditionalData() {
+    additionalData = {
+        baggages : {},
+        nutrition: {},
+        places   : {}
+    };
 
-for (let way of ways) {
-    const _hash = $(way).data('hash');
-    const _isBaggage = $(way).data('exist-baggage');
-    const _isNutrition = $(way).data('exist-nutrition');
-    const _isPlaces = $(way).data('exist-places');
+    for (let way of ways) {
+        const _hash = $(way).data('hash');
+        const _isBaggage = $(way).data('exist-baggage');
+        const _isNutrition = $(way).data('exist-nutrition');
+        const _isPlaces = $(way).data('exist-places');
 
-    if (!orderForm.baggages) orderForm.baggages = {};
-    if (!orderForm.nutrition) orderForm.nutrition = {};
-    if (!orderForm.places) orderForm.places = {};
+        if (!orderForm.baggages) orderForm.baggages = {};
+        if (!orderForm.nutrition) orderForm.nutrition = {};
+        if (!orderForm.places) orderForm.places = {};
 
-    orderForm.baggages[_hash] = {};
-    orderForm.nutrition[_hash] = {};
-    orderForm.places[_hash] = {};
+        orderForm.baggages[_hash] = {};
+        orderForm.nutrition[_hash] = {};
+        orderForm.places[_hash] = {};
 
-    if(_isBaggage || _isNutrition || _isPlaces) {
-        getAdditionalData(_hash);
-        isAdditionalData = true;
+        if(_isBaggage || _isNutrition || _isPlaces) {
+            getAllAdditionalData.push(getAdditionalDataByHash(_hash));
+            isAdditionalData = true;
+        }
     }
+    Promise.all(getAllAdditionalData).then(
+        result => {
+            console.log('get additional');
+            activateAdditionalButton(true);
+        },
+        error => console.log('error additional data')
+    ).finally(() => {
+        console.log('finally');
+        getAllAdditionalData = [];
+    });
 }
+getAdditionalData();
 
 $("#additional-services-button").attr("disabled", !orderForm.baggages || !orderForm.nutrition || !orderForm.places);
 
@@ -366,23 +389,23 @@ $("#additional-services-button").attr("disabled", !orderForm.baggages || !orderF
 
 usersArray.forEach((item, index) => {
     const _userIndex = index + 1;
-    let html = passengerFormHTML.replaceAll('{pass_num}', _userIndex);
-    html = html.replaceAll('{todayInput}', todayInput);
-    html = html.replaceAll('{tomorrowInput}', tomorrowInput);
-    html = html.replaceAll('{yesterdayInput}', yesterdayInput);
-    html = html.replaceAll('{maxDataInput}', maxDataInput);
-    html = html.replaceAll('{minDataInput}', minDataInput);
-    html = html.replaceAll('{optionsCountries}', getCountryOptions());
+    let html = passengerFormHTML.replace(/{pass_num}/g, _userIndex);
+    html = html.replace(/{todayInput}/g, todayInput);
+    html = html.replace(/{tomorrowInput}/g, tomorrowInput);
+    html = html.replace(/{yesterdayInput}/g, yesterdayInput);
+    html = html.replace(/{maxDataInput}/g, maxDataInput);
+    html = html.replace(/{minDataInput}/g, minDataInput);
+    html = html.replace(/{optionsCountries}/g, getCountryOptions());
 
     switch (item['age-type']) {
         case 'ADT':
-            html = html.replaceAll('{pass_type}', `(${lajax.t('adult')})`);
+            html = html.replace(/{pass_type}/g, `(${lajax.t('adult')})`);
             break;
         case 'CHD':
-            html = html.replaceAll('{pass_type}', `(${lajax.t('child')})`);
+            html = html.replace(/{pass_type}/g, `(${lajax.t('child')})`);
             break;
         case 'INF':
-            html = html.replaceAll('{pass_type}', `(${lajax.t('infant')}`);
+            html = html.replace(/{pass_type}/g, `(${lajax.t('infant')}`);
             break;
     }
 
@@ -391,21 +414,25 @@ usersArray.forEach((item, index) => {
     $('#birthday-datepicker-' + _userIndex).datepicker({
         language: lang,
         format  : 'dd.mm.yyyy',
-        // startDate: new Date(minDataInput),
-        // endDate: new Date(yesterdayInput)
-    })
+        autoclose: true
+    }).on('hide', ()=>{onFocusOutSafary($('#birthday' + _userIndex))});
 
     $('#pasport-limit-datepicker-' + _userIndex).datepicker({
         language: lang,
         format  : 'dd.mm.yyyy',
-        // startDate: new Date(Date.now() + oneDay),
-        // endDate: new Date(Date.now() + hundredYears)
-    })
+        autoclose: true
+    }).on('hide', ()=>{onFocusOutSafary($('#pasport-limit-date' + _userIndex))});
 
 })
 $('#passenger-block').find('input[type="text"]').on('blur', onFocusOut);
+$('#passenger-block').find('input[type="text"]').on('focus', removeError);
+$('#passenger-block').find('input[type="text"]').on('focusout', onFocusOut);
 $('#passenger-block').find('input, select').on('change', onFocusOut);
+
 $('#contact-data-block').find('input[type="text"]').change(onFocusOutContact);
+$('#contact-data-block').find('input[type="text"]').on('focus', removeError);
+$('#contact-data-block').find('input[type="text"]').on('focusout', onFocusOutContact);
+
 $('#rules').click(function () {
     $('#error-rules').html('');
 });
@@ -427,6 +454,14 @@ function getCountryOptions () {
 /**********************
  general methods
  **********************/
+window.onpopstate = function(event) {
+    if(location.hash == '#additional'){
+       moveToAdditionalPage(null);
+    } else {
+       moveToFirstPage();
+    }
+}
+
 function getPassengerCount(param) {
     return $('#page-info').data('count-' + param);
 }
@@ -435,6 +470,27 @@ function onFocusOut() {
     $(this).removeClass('untouched');
     $(this).val($(this).val().trim());
     const field = getField($(this))
+    if (field.type == "birthday" || field.type == "pasport-limit-date") {
+        orderForm.users[field.index - 1][field.type] = parseDateforRequest(field.value);
+    } else {
+        orderForm.users[field.index - 1][field.type] = field.value;
+    }
+
+    checkUserData(field);
+    sendOrderFormFocusOut();
+}
+
+function removeError() {
+    const field = getField($(this));
+    const indexData = field.index ? field.index : '';
+    const errorField = $('#error-' + field.type + indexData);
+    errorField.html('');
+}
+
+function onFocusOutSafary(el) {
+    el.removeClass('untouched');
+    el.val(el.val().trim());
+    const field = getField(el)
     if (field.type == "birthday" || field.type == "pasport-limit-date") {
         orderForm.users[field.index - 1][field.type] = parseDateforRequest(field.value);
     } else {
@@ -545,6 +601,10 @@ function sendOrderFormFocusOut() {
     if (!_isContactData && !_namesArray.length) return;
     console.log('Form', orderForm);
     
+    checkAndSendForm();
+}
+
+function checkAndSendForm() {
     if(isFormSent) {
         isFormSent = false;
         sendOrderForm();
@@ -564,6 +624,7 @@ function sendOrderForm() {
                 isSendRepeat = false;
                 sendOrderForm();
             } else if ( isSendPayment ) {
+                isFormSent = true;
                 sendPaymentForm();
             } else {
                 isFormSent = true;
@@ -583,6 +644,8 @@ function sendOrderForm() {
 
 function showErrorStatusModal(error) {
     $('#modal-pay .load-filters').hide();
+    $('#modal-pay .system-loading').hide();
+    $('#modal-pay .payment-loading').hide();
     activatePayButtons(true);
     $('#modal-pay').modal('hide');
     if(error.status_code) $('#modal-form-order-error .error-status').text(`${lajax.t('Ошибка')}: ${error.status_code}`);
@@ -590,21 +653,31 @@ function showErrorStatusModal(error) {
 
     switch (error.status_code) {
         case 400:
-            $('#modal-footer').html(modalReloadPageButtonHtml + modalCloseButtonHtml);
+        case 406:
+            $('#modal-error-footer').html(modalReloadPageButtonHtml);
+            $('#modal-order-error-close-wrap').html(modalReloadPageCrossHtml);
             break;
+        case 403:
         case 404:
         case 407:
-            $('#modal-footer').html(modalRedirectToMainPageButtonHtml + modalCloseButtonHtml);
+        case 500:
+            $('#modal-error-footer').html(modalRedirectToMainPageButtonHtml);
+            $('#modal-order-error-close-wrap').html(modalRedirectToMainPageCrossHtml);
             break;
         case 410:
             promo_del();
-            $('#modal-footer').html(modalOkButtonHtml);
+            $('#modal-error-footer').html(modalOkButtonHtml);
+            $('#modal-order-error-close-wrap').html(modalCloseCrossHtml);
+            break;
+        case 408:
+            $('#modal-error-footer').html(modalUpdateAdditionalServices);
+            $('#modal-order-error-close-wrap').html(modalUpdateAdditionalServicesCross);
             break;
         case 402:
         case 409:
-        case 500:
         default:
-            $('#modal-footer').html(modalOkButtonHtml);
+            $('#modal-error-footer').html(modalOkButtonHtml);
+            $('#modal-order-error-close-wrap').html(modalCloseCrossHtml);
     }
 
     $('#modal-form-order-error').modal('show');
@@ -639,10 +712,37 @@ function updatePassengerFields() {
             if (user['pasport-limit-date']) $(`#pasport-limit-datepicker-${index + 1}`).datepicker("setDate", new Date(user['pasport-limit-date'])) ;
         });
     }
-    if(sessionStorage.client_info ) {
-        isFormSent = false;
-        sendOrderForm();
+}
+
+function updateAdditionalServices() {
+    serviceTypes.forEach( service => {
+        for(let item in orderForm[service]) {
+            orderForm[service][item] = {};
+        }
+    })
+
+    activateAdditionalButton(false);
+
+    checkAndSendForm();
+    removeSecondStep();
+
+    totalSumm();
+    getAdditionalData();
+
+    setTimeout(() => {
+        addHistory('additional');
+        moveToAdditionalPage(null);
+    }, 3000)
+
+}
+
+function removeSecondStep() {
+    movedToSecondStep = false;
+    $("#all-passengers-info").text('');
+    for (let _service of serviceTypes) {
+        $(`#all-${_service}-tabs`).text('');
     }
+
 }
 
 /**********************
@@ -650,6 +750,9 @@ function updatePassengerFields() {
  **********************/
 $('.button-buy').click(function () {
     if (isUserFormValid() && isRulesAgreed()) {
+        if(!orderForm.order_id){
+            sendOrderFormFocusOut(); // дублирование?
+        }
         orderForm.paymentMethod = $(this).data('method');
         console.log('Form', orderForm);
         if (orderForm.paymentMethod === 'Portmone') {
@@ -658,8 +761,12 @@ $('.button-buy').click(function () {
         }
 
         $('#modal-pay .load-filters').show();
+        $('#modal-pay .system-loading').show();
         $('#modal-pay').modal({backdrop: 'static', keyboard: true});
         activatePayButtons(false);
+        if(!orderForm.orderId) {
+            checkAndSendForm();  // дублирование?
+        }
 
         if(isFormSent) {
             sendPaymentForm();
@@ -687,9 +794,9 @@ function sendPaymentForm() {
                 if (data.MerchantId) {
                     fondyInit(data);
                 }
-                isSendPayment = false;
-                activatePayButtons(true);
             }
+            isSendPayment = false;
+            activatePayButtons(true);
         })
         .fail(function (data) {
                 let dataTest = {
@@ -698,6 +805,8 @@ function sendPaymentForm() {
                     message    : 'Произошла ошибка при бронировании. Мы обновим страницу заказа. Просим повторить бронирование.'
                 }
                 showErrorStatusModal(dataTest);
+                isSendPayment = false;
+                activatePayButtons(true);
             }
         );
 }
@@ -710,18 +819,23 @@ function activatePayButtons(state) {
     }
 }
 
+function activateAdditionalButton(state) {
+    if(state) {
+        $('#additional-services-button').removeClass('disabled');
+    } else {
+        $('#additional-services-button').addClass('disabled');
+    }
+}
+
 // method for open additional page
 $('#additional-services-button').click(() => {
+    addHistory('additional');
     moveToAdditionalPage(null);
 });
 
 $('#return-to-passengers, #all-passengers-info-error-form').click(function () {
-    $("#return-to-passengers").hide();
-    $('#return-to-search').show();
-    $('#additional-services-button').show();
-
-    $('#order-first-step').fadeIn('slow');
-    $('#order-second-step').hide();
+    addHistory();
+    moveToFirstPage();
 })
 
 $('#nutrition-show-all-button').click(function () {
@@ -759,14 +873,6 @@ $('#places-hide-all-button').click(function () {
     $('#places-show-all-button').show();
     $('#places-collapse').collapse('hide');
 });
-
-$("[href='#baggages-collapse']").click(() => {
-    $('#baggages-collapse-button').hide();
-})
-
-$("[href='#nutrition-collapse']").click(() => {
-    $('#nutrition-collapse-button').hide();
-})
 
 $('#modal-pay .close').click(closePaymentModal);
 
@@ -962,8 +1068,8 @@ function checkDateFormat(date) {
 function formatDate(date) {
     const mm = date.slice(3, 5);
     const dd = date.slice(0, 2);
-    const yy = date.slice(6, 10);
-    return `${mm}.${dd}.${yy}`;
+    const yyyy = date.slice(6, 10);
+    return `${yyyy}-${mm}-${dd}`;
 }
 
 /**********************
@@ -998,9 +1104,9 @@ function createPhoneList(search) {
     }
 
     for (let phone of _phoneArray) {
-        let _htmlItem = phoneListHtml.replaceAll('{data_phone}', phone.data);
-        _htmlItem = _htmlItem.replaceAll('{co_phone}', phone.co);
-        _htmlItem = _htmlItem.replaceAll('{phone_label}', phone.label);
+        let _htmlItem = phoneListHtml.replace(/{data_phone}/g, phone.data);
+        _htmlItem = _htmlItem.replace(/{co_phone}/g, phone.co);
+        _htmlItem = _htmlItem.replace(/{phone_label}/g, phone.label);
         _html += _htmlItem;
     }
     $('#phone-list').html(_html);
@@ -1035,7 +1141,7 @@ function totalSumm() {
     const totalTicketsPrice = +$('#total-summ').data('price_digits');
 
     $('#total-sum-details').html('');
-    if (totalTicketsPrice > 0) $('#total-sum-details').append(`<div>${lajax.t('Стоимость билетов')}: <b>${numberFormat(totalTicketsPrice)} ${lajax.t('грн')}.</b></div>`);
+    if (totalTicketsPrice > 0) $('#total-sum-details').append(`<div>${lajax.t('Стоимость билетов')}: <b>${totalTicketsPrice} ${lajax.t('грн')}.</b></div>`);
 
     // create orders for one hash
     for (let _service of serviceTypes) {
@@ -1113,9 +1219,9 @@ function totalSumm() {
             ;
         }
 
-        if (_service === 'nutrition') _html = _html.replace('{price}', numberFormat(totalNutritionPrice));
-        if (_service === 'baggages') _html = _html.replace('{price}', numberFormat(totalBaggagesPrice));
-        if (_service === 'places') _html = _html.replace('{price}', numberFormat(totalPlacesPrice));
+        if (_service === 'nutrition') _html = _html.replace('{price}', totalNutritionPrice);
+        if (_service === 'baggages') _html = _html.replace('{price}', totalBaggagesPrice);
+        if (_service === 'places') _html = _html.replace('{price}', totalPlacesPrice);
 
         if (_service === 'nutrition' && !totalNutritionPrice) _html = '';
         if (_service === 'baggages' && !totalBaggagesPrice) _html = '';
@@ -1128,7 +1234,7 @@ function totalSumm() {
 
     const totalSummVal = totalTicketsPrice + totalBaggagesPrice + totalNutritionPrice + totalPlacesPrice - tiketDiscount;
 
-    $('#total-summ').html(`${numberFormat(totalSummVal)} ${lajax.t('грн')}`);
+    $('#total-summ').html(`${totalSummVal} ${lajax.t('грн')}`);
 }
 
 totalSumm();
@@ -1168,10 +1274,10 @@ function createPassengerInfoBlocks() {
     usersArray.forEach(function (item, index) {
         let html = index ? passengerInfoHtml : passengerInfoCollapsedHtml;
 
-        html = html.replaceAll('{passenger-info}', 'passenger-info' + (index + 1));
-        html = html.replaceAll('{user_id}', (index + 1));
-        html = html.replaceAll('{user name & surname}', `${item.name} ${item.surname}`);
-        html = html.replaceAll('{navTabHtml}', createPassengerTabBlock(ways, (index + 1)));
+        html = html.replace(/{passenger-info}/g, 'passenger-info' + (index + 1));
+        html = html.replace(/{user_id}/g, (index + 1));
+        html = html.replace(/{user name & surname}/g, `${item.name} ${item.surname}`);
+        html = html.replace(/{navTabHtml}/g, createPassengerTabBlock(ways, (index + 1)));
 
         $("#all-passengers-info").append(html);
     })
@@ -1234,7 +1340,7 @@ function moveToAdditionalPage(service, hash) {
     isUserFormValid();
     setTimeout(() => {
         $(this).hide();
-        $('#return-to-search').hide();
+        $('#link_for_search').hide();
         $('#return-to-passengers').show();
 
         $('#order-first-step').hide();
@@ -1246,6 +1352,7 @@ function moveToAdditionalPage(service, hash) {
             addIterationMethod(); // for good iteration
             showProductTab();
             hideExtraBlocks(1);
+            checkHasContent();
 
             movedToSecondStep = true;
         }
@@ -1255,6 +1362,15 @@ function moveToAdditionalPage(service, hash) {
         showProductBlocks(service, hash);
         $(window).scrollTop(0);
     }, 10)
+}
+
+function moveToFirstPage() {
+    $("#return-to-passengers").hide();
+    $('#link_for_search').show();
+    $('#additional-services-button').show();
+
+    $('#order-first-step').fadeIn('slow');
+    $('#order-second-step').hide();
 }
 
 /**************************
@@ -1397,6 +1513,8 @@ function showProductBlocks(service, hash) {
 
 function showProductTab() {
     $('.nav-link[data-toggle="tab"]').click(function () {
+        const _hasContent = $(this).data('has-content');
+        const _service = $(this).data('service');
         const _tabType = $(this).data('tab-type');
         const _userId = $(this).data('user-id');
         const _hash = $(this).data('hash');
@@ -1411,7 +1529,9 @@ function showProductTab() {
             $(`.tab-pane[data-tab-type="${_type}"][data-user-id="${_userId}"]`).removeClass('active');
             $(`.tab-pane[data-tab-type="${_type}"][data-user-id="${_userId}"][data-hash="${_hash}"]`).addClass('active');
         }
-    })
+        checkHasContent();
+    });
+    
 }
 
 function showProductUser(userIdx){
@@ -1426,6 +1546,21 @@ function showProductUser(userIdx){
             $('#places-block-item' + (index + 1)).hide();
         }
     })
+}
+
+function tabHeight(hasContent, service) {
+    if(hasContent == 'empty') {
+        $(`#${service}-collapse`).addClass('empty');
+    } else {
+        $(`#${service}-collapse`).removeClass('empty');
+    }
+}
+
+function checkHasContent() {
+    serviceTypes.forEach( (service) => {
+        const _hasContent = $(`#${service}-collapse .nav-item.active>a`).data('has-content');
+        tabHeight(_hasContent, service);
+    });
 }
 
 /**********************
@@ -1445,22 +1580,22 @@ function createPassengerTabBlock(array, userId) {
         const _tabId = `${_tabName}-tab${wayIndex + 1}`;
         const _hash = $(tab).data('hash');
         if (!wayIndex) {
-            _navItem = navTabItemHtml.replaceAll('{active}', 'active');
-            _navContent = navTabPassContentHtml.replaceAll('{active}', 'active');
+            _navItem = navTabItemHtml.replace(/{active}/g, 'active');
+            _navContent = navTabPassContentHtml.replace(/{active}/g, 'active');
         } else {
-            _navItem = navTabItemHtml.replaceAll('{active}', '');
-            _navContent = navTabPassContentHtml.replaceAll('{active}', '');
+            _navItem = navTabItemHtml.replace(/{active}/g, '');
+            _navContent = navTabPassContentHtml.replace(/{active}/g, '');
         }
-        _navItem = _navItem.replaceAll('{user_id}', userId);
-        _navItem = _navItem.replaceAll('{tab_type}', _tabType);
-        _navItem = _navItem.replaceAll('{hash}', _hash);
-        _navItem = _navItem.replaceAll('{tab_id}', _tabId);
+        _navItem = _navItem.replace(/{user_id}/g, userId);
+        _navItem = _navItem.replace(/{tab_type}/g, _tabType);
+        _navItem = _navItem.replace(/{hash}/g, _hash);
+        _navItem = _navItem.replace(/{tab_id}/g, _tabId);
 
         _navContent = _navContent.replace('{empty_order}', lajax.t('Вы пока ни чего не выбрали'));
-        _navContent = _navContent.replaceAll('{tab_id}', _tabId);
+        _navContent = _navContent.replace(/{tab_id}/g, _tabId);
         _navContent = _navContent.replace('{user_id}', userId);
         _navContent = _navContent.replace('{hash}', _hash);
-        _navContent = _navContent.replaceAll('{tab_type}', _tabType);
+        _navContent = _navContent.replace(/{tab_type}/g, _tabType);
 
         _navTabItems += _navItem;
         _navTabContents += _navContent;
@@ -1468,38 +1603,45 @@ function createPassengerTabBlock(array, userId) {
         wayIndex++;
     }
 
-    let _navTab = navTabHtml.replaceAll('{navTabItemHtml}', _navTabItems);
-    _navTab = _navTab.replaceAll('{navTabContentHtml}', _navTabContents);
+    let _navTab = navTabHtml.replace(/{navTabItemHtml}/g, _navTabItems);
+    _navTab = _navTab.replace(/{navTabContentHtml}/g, _navTabContents);
 
     return _navTab;
 }
 
-function createProductTabBlock(array, userId, service) {
+function createProductTabBlock(hashArray, userId, service) {
     let _navTabItems = '';
     let _navTabContents = '';
     let wayIndex = 0;
     const _tabType = 'product';
 
-    for (let _hash in array) { // формирует табы
+    for (let _hash in hashArray) { // формирует табы
         let _navItem;
         let _navContent;
         const _tabId = `${service}${userId}-tab${wayIndex + 1}`;
         if (!wayIndex) {
-            _navItem = navTabItemHtml.replaceAll('{active}', 'active');
-            _navContent = navTabGoodContentHtml.replaceAll('{active}', 'active');
+            _navItem = navTabItemHtml.replace('{active}', 'active');
+            _navContent = navTabGoodContentHtml.replace(/{active}/g, 'active');
         } else {
-            _navItem = navTabItemHtml.replaceAll('{active}', '');
-            _navContent = navTabGoodContentHtml.replaceAll('{active}', '');
+            _navItem = navTabItemHtml.replace('{active}', '');
+            _navContent = navTabGoodContentHtml.replace(/{active}/g, '');
         }
-        _navItem = _navItem.replaceAll('{hash}', _hash);
-        _navItem = _navItem.replaceAll('{user_id}', userId);
-        _navItem = _navItem.replaceAll('{tab_type}', _tabType);
-        _navItem = _navItem.replaceAll('{tab_id}', _tabId);
+        if(additionalData[service][_hash]) {
+            _navItem = _navItem.replace('{has-content}', 'full');
+        } else {
+            _navItem = _navItem.replace('{has-content}', 'empty');
+        }
 
-        _navContent = _navContent.replaceAll('{tab_id}', _tabId);
-        _navContent = _navContent.replaceAll('{user_id}', userId);
-        _navContent = _navContent.replaceAll('{hash}', _hash);
-        _navContent = _navContent.replaceAll('{tab_type}', _tabType);
+        _navItem = _navItem.replace(/{hash}/g, _hash);
+        _navItem = _navItem.replace(/{user_id}/g, userId);
+        _navItem = _navItem.replace(/{tab_type}/g, _tabType);
+        _navItem = _navItem.replace(/{service}/g, service);
+        _navItem = _navItem.replace(/{tab_id}/g, _tabId);
+
+        _navContent = _navContent.replace(/{tab_id}/g, _tabId);
+        _navContent = _navContent.replace(/{user_id}/g, userId);
+        _navContent = _navContent.replace(/{hash}/g, _hash);
+        _navContent = _navContent.replace(/{tab_type}/g, _tabType);
 
         if (service !== 'places') {
             _navContent = _navContent.replace('{good-items}', getGoodItemsHtml(additionalData[service][_hash], _hash, service, userId));
@@ -1513,8 +1655,8 @@ function createProductTabBlock(array, userId, service) {
         wayIndex++;
     }
 
-    let _navTab = navTabHtml.replaceAll('{navTabItemHtml}', _navTabItems);
-    _navTab = _navTab.replaceAll('{navTabContentHtml}', _navTabContents);
+    let _navTab = navTabHtml.replace(/{navTabItemHtml}/g, _navTabItems);
+    _navTab = _navTab.replace(/{navTabContentHtml}/g, _navTabContents);
 
     return _navTab;
 }
@@ -1526,15 +1668,15 @@ function getGoodItemsHtml(goodObj, hash, service, userId) {
         const _dataEnd = new Date(goodObj[item]['expired_at'] * 1000);
         const _maxCount = goodObj[item]['max_count'] ? goodObj[item]['max_count'] : 0;
 
-        let _goodItem = goodItemHtml.replaceAll('{img_url}', imgUrl);
-        _goodItem = _goodItem.replaceAll('{good_title}', goodObj[item][lang]);
-        _goodItem = _goodItem.replaceAll('{price}', `${goodObj[item]['price']} ${lajax.t('uah')}`);
-        _goodItem = _goodItem.replaceAll('{good_id}', goodObj[item]['id'])
-        _goodItem = _goodItem.replaceAll('{data_end}', `${lajax.t('Можно заказать до')} <span class="no-wrap">${parseDate(_dataEnd)}</span>`);
-        _goodItem = _goodItem.replaceAll('{hash}', hash);
-        _goodItem = _goodItem.replaceAll('{max_val}', _maxCount);
-        _goodItem = _goodItem.replaceAll('{service_type}', service);
-        _goodItem = _goodItem.replaceAll('{user_id}', userId);
+        let _goodItem = goodItemHtml.replace(/{img_url}/g, imgUrl);
+        _goodItem = _goodItem.replace(/{good_title}/g, goodObj[item][lang]);
+        _goodItem = _goodItem.replace(/{price}/g, `${goodObj[item]['price']} ${lajax.t('uah')}`);
+        _goodItem = _goodItem.replace(/{good_id}/g, goodObj[item]['id'])
+        _goodItem = _goodItem.replace(/{data_end}/g, `${lajax.t('Можно заказать до')} <span class="no-wrap">${parseDate(_dataEnd)}</span>`);
+        _goodItem = _goodItem.replace(/{hash}/g, hash);
+        _goodItem = _goodItem.replace(/{max_val}/g, _maxCount);
+        _goodItem = _goodItem.replace(/{service_type}/g, service);
+        _goodItem = _goodItem.replace(/{user_id}/g, userId);
         _goodItems += _goodItem;
     }
 
@@ -1549,6 +1691,8 @@ function getPlacesItemsHtml(goodObj, tabId, hash, service, userId) {
 
     let _html = placesItemHtml;
 
+    if(!goodObj) return _html;
+
     setTimeout(() => {
         $(`#${tabId} .order-body-goods`).createPlane(
             goodObj,
@@ -1559,7 +1703,7 @@ function getPlacesItemsHtml(goodObj, tabId, hash, service, userId) {
                 canChoose: 'can-choose'
             }
         );
-    }, 1000);
+    }, 100);
 
     return _html;
 }
@@ -1641,12 +1785,23 @@ function addDiscount() {
     }
 }
 
+function historyGoToAdditional(service, hash) {
+    addHistory('additional');
+    moveToAdditionalPage(service, hash)
+}
+
+function addHistory(page) {
+    page ? 
+    history.pushState('additioal', null, '/order#' + page):
+    history.pushState('additioal', null, '/order');
+}
+
 function reloadPage() {
     location.reload();
 }
 
 function redirectToMainPage() {
-    location.replace('/');
+    location.replace(searchLink);
 }
 
 // format data
@@ -1654,17 +1809,18 @@ function stringifyInputDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
-function getAdditionalData(hash) {
+function getAdditionalDataByHash(hash) {
     const url = `${baseUrl}/web-data/additional-services-online`;
     
-    $.post( url, {flyPropertyId: flightID, route: hash, serviceName: 'places,baggages,nutrition'}, function( data ) {
-        serviceTypes.forEach((service) => {
-            const serviceData = data[service];
-            additionalData[service][hash] = serviceData;
-            setTimeout(() => {
+    return new Promise((resolve, reject)=>{
+        $.post( url, {flyPropertyId: flightID, route: hash, serviceName: 'places,baggages,nutrition'}, function( data ) {
+            serviceTypes.forEach((service) => {
+                const serviceData = data[service];
+                additionalData[service][hash] = serviceData;
                 showMinCost(service, hash, serviceData);
-            }, 2000);
-        })
+            });
+            resolve('done');
+        });
     });
 }
 
@@ -1811,6 +1967,7 @@ function liqPayInit(data) {
 
         }).on("liqpay.ready", function (data) {
             $('#modal-pay .load-filters').hide();
+            $('#modal-pay .system-loading').hide();
 
             console.log('READY');
         }).on("liqpay.close", function (data) {
@@ -1921,13 +2078,19 @@ function fondyCallbackDefault(paymentData) {
 function fondyCheckoutInit(url, paymentData) {
     $ipsp('checkout').scope(function () {
         this.setCheckoutWrapper('#checkout_fondy_wrapper');
-        this.addCallback(()=>{successPayment(paymentData)});
+        this.addCallback((data)=>{
+            if (!data.error){
+                successPayment(paymentData)
+            }
+        }); // callback
         this.setModal(false);
         this.setCssStyle(checkoutStyles);
         this.action('show', function (data) {
             $('#checkout_fondy_loader').remove();
             $('#checkout_fondy').show();
             $('#modal-pay .load-filters').hide();
+            $('#modal-pay .system-loading').hide();
+            $('#modal-pay .payment-loading').hide();
         });
         this.action('hide', function (data) {
             $('#checkout_fondy').hide();
@@ -1953,16 +2116,6 @@ function fondyInit(paymentData) {
         value   : paymentData.description,
         readonly: true
     });
-    button.addField({
-        label      : 'Full Name',
-        name       : 'username',
-        value      : '',
-        required   : true,
-        placeholder: 'Enter Your Name',
-        valid      : {
-            'pattern': '^[a-zA-Z\s]+$'
-        }
-    });
     button.addParam('order_id', paymentData.orderId);
     button.addParam('lang', lang);
     button.addParam('preauth', 'Y');
@@ -1973,6 +2126,7 @@ function fondyInit(paymentData) {
 
 function successPayment(paymentData) {
     $('#modal-pay .load-filters').show();
+    $('#modal-pay .payment-loading').show();
     checkServerStatus(paymentData);
     closePaymentModal();
 }
@@ -1993,7 +2147,9 @@ function checkServerStatus(data) {
     $.post(data.order_check_url, _dataPayment)
     .done(function (response) {
         if(response.status === 'hold' || response.status === 'success') { //status
-            window.location.replace("http://www.w3schools.com");
+            closePaymentModal();
+            window.open('https://www.google.com.ua/', "_blank");
+            window.location.replace(data.thank_you_page_url);
         } else if(response.status === 'started' || response.status === 'processing') {
             setTimeout(()=>{
                 checkServerStatus(data)
@@ -2014,13 +2170,15 @@ function closePaymentModal() {
     $('#buy-buttons').removeClass('disabled-buttons');
     delete orderForm.orderId;
     delete orderForm.paymentMethod;
-    sendOrderFormFocusOut();
 }
 /**********************
  init
  **********************/
 
-if(!isAdditionalData) $('#additional-services-button').hide();
+if(!isAdditionalData) {
+    $('#additional-services-button').hide();
+    $('#total-sum-details').hide();
+}
 
 setTimeout(() => {
     updateClientDataFields();

@@ -1,7 +1,7 @@
 <div class="order-page">
     <div class="order-header">
         <a class="btn btn-primary"
-            id="return-to-search"
+            id="link_for_search"
             href="https://test.chartertickets.com.ua/?type=round_way&country_from=albania&city_from=tirana&country_to=ukraine&city_to=kiev&date_from=2021-05-29&date_to=2021-05-31&adults=1&children=0&childes=0&schema="
             style="margin:10px">Вернуться к поиску
         </a>
@@ -9,7 +9,7 @@
         
         
         <!-- BUS_KBP -->
-        <div class="result-data" id="page-info" style="display: none;" data-show-welcome="0" data-result-expired-at="1615891323" data-fly-property-to-id="80811220" data-count-adults="1" data-count-children="0" data-count-childes="0"></div>
+        <div class="result-data" id="page-info" style="display: none;" data-show-welcome="0" data-fly-property-to-id="81083193" data-result-expired-at="1615891323" data-count-adults="1" data-count-children="0" data-count-childes="0"></div>
         <!-- <span class="float-right">
             timer:  <div id="expirationTimer"></div>
         </span> -->
@@ -25,7 +25,7 @@
 
     <div class="order-footer">
         <div class="row">
-            <button type="submit" id="additional-services-button" class="btn btn-primary">
+            <button type="submit" id="additional-services-button" class="btn btn-primary disabled">
                 Перейти к выбору доп услуг
             </button>
             <button class="btn btn-primary" id="return-to-passengers">

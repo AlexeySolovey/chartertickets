@@ -1,0 +1,104 @@
+/**
+ * Created on : 2015.02.02., 16:43:29
+ * Author     : Lajos Molnar <lajax.m@gmail.com>
+ * FlagSprite : http://www.flag-sprites.com/
+ */
+
+
+
+/* The container <div> - needed to position the dropdown content */
+.lang-selector {
+	position: relative;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.languages-list {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+/* Links inside the dropdown */
+.languages-list a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+/* Change color of dropdown links on hover */
+.languages-list a:hover {background-color: black}
+
+/* Show the dropdown menu on hover */
+.lang-selector:hover .languages-list {
+	display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.lang-selector:hover .current-language {
+	background-color: #3e8e41;
+}
+.lang-selector.mobile {
+	margin-left: 10px;
+}
+.lang-selector.mobile:after{
+	content: "";
+	clear: both;
+	display: block;
+}
+.lang-selector.mobile a{
+	float: left;
+	margin: 0;
+	padding: 0 5px;
+}
+
+.lang-selector i {
+	width: 25px;
+	height: 15px;
+    display:inline-block;
+	background-image:url('../images/flags-flags.png');
+    background-repeat: no-repeat;
+}
+
+.lang-selector i.ar, .lang-selector i.ar, .lang-selector i.ae , .lang-selector i.ar {background-position: -25px 0}
+.lang-selector i.az, .lang-selector i.az {background-position: -50px 0}
+.lang-selector i.bg, .lang-selector i.bg {background-position: -75px 0}
+.lang-selector i.pt {background-position: -100px 0}
+.lang-selector i.ca, .lang-selector i.ca {background-position: -125px 0}
+.lang-selector i.zh {background-position: -150px 0}
+.lang-selector i.cs, .lang-selector i.cs {background-position: 0 -15px}
+.lang-selector i.de, .lang-selector i.de {background-position: -25px -15px}
+.lang-selector i.da, .lang-selector i.da {background-position: -50px -15px}
+.lang-selector i.et, .lang-selector i.et {background-position: -75px -15px}
+.lang-selector i.es, .lang-selector i.es {background-position: -100px -15px}
+.lang-selector i.fi, .lang-selector i.fi {background-position: -125px -15px}
+.lang-selector i.fr, .lang-selector i.fr {background-position: -150px -15px}
+.lang-selector i.en, .lang-selector i.en, .lang-selector i.en {background-position: 0 -30px}
+.lang-selector i.el, .lang-selector i.el {background-position: -25px -30px}
+.lang-selector i.hu, .lang-selector i.hu {background-position: -50px -30px}
+.lang-selector i.id, .lang-selector i.id {background-position: -75px -30px}
+.lang-selector i.he, .lang-selector i.he {background-position: -100px -30px}
+.lang-selector i.fa {background-position: -125px -30px}
+.lang-selector i.it, .lang-selector i.it {background-position: -150px -30px}
+.lang-selector i.ja, .lang-selector i.jp {background-position: 0 -45px}
+.lang-selector i.ko, .lang-selector i.ko {background-position: -25px -45px}
+.lang-selector i.kk, .lang-selector i.kk {background-position: -50px -45px}
+.lang-selector i.lt, .lang-selector i.lt {background-position: -75px -45px}
+.lang-selector i.lv, .lang-selector i.lv {background-position: -100px -45px}
+.lang-selector i.nl, .lang-selector i.nl {background-position: -125px -45px}
+.lang-selector i.pl, .lang-selector i.pl {background-position: -150px -45px}
+.lang-selector i.pt, .lang-selector i.pt {background-position: 0 -60px}
+.lang-selector i.ro, .lang-selector i.ro {background-position: -25px -60px}
+.lang-selector i.sr, .lang-selector i.sr, .lang-selector i.sr {background-position: -50px -60px}
+.lang-selector i.ru, .lang-selector i.ru {background-position: -75px -60px}
+.lang-selector i.sv, .lang-selector i.sv {background-position: -100px -60px}
+.lang-selector i.sl, .lang-selector i.sl {background-position: -125px -60px}
+.lang-selector i.sk, .lang-selector i.sk {background-position: -150px -60px}
+.lang-selector i.th, .lang-selector i.th {background-position: 0 -75px}
+.lang-selector i.zh {background-position: -25px -75px}
+.lang-selector i.uk, .lang-selector i.uk {background-position: -50px -75px}
+.lang-selector i.en {background-position: -75px -75px}
+.lang-selector i.vi, .lang-selector i.vi {background-position: -100px -75px}

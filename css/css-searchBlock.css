@@ -1,0 +1,75 @@
+/* Search - Country picker */
+.popup-pick-country-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
+  list-style-type: none;
+}
+
+/* Search - City picker */
+.popup-pick-city-inner {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px;
+}
+
+.popup-pick-city-container {
+  text-align: center;
+  list-style-type: none;
+}
+
+/* Search - other */
+.passengers-input {
+  background-color: #fff;
+}
+
+.popup {
+  margin-bottom: 32px;
+}
+
+.popup .popup-pick-country-item, .popup .popup-pick-city-item {
+  padding: 0 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 18px;
+  margin-top: 2px;
+  border: 1px solid #bfbfbf;
+  background-color:rgba(240, 247, 253, 0.6);
+}
+.popup .popup-pick-country-item:hover .place_item, .popup .popup-pick-city-item:hover .place_item {
+  color: #23527c;
+}
+.popup .popup-pick-country-item.active:hover .place_item, .popup .popup-pick-city-item.active:hover .place_item {
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .popup .popup-pick-country-item, .popup .popup-pick-city-item {
+    font-size: 16px !important;
+  }
+
+  .popup h4 {
+    font-size: 18px !important;
+  }
+}
+
+.glyphicon-refresh{
+  color: #ffffff;
+}
+
+.glyphicon-refresh:hover{
+  color: #337ab7;
+}
+
+.place_item {
+  color: #333;
+  text-decoration: none;
+  pointer-events: none;
+}
+.active .place_item {
+  color: #fff;
+}
+.place_item:hover, .place_item:focus {
+  text-decoration: none;
+}

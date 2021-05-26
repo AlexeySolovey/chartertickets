@@ -47,8 +47,12 @@
 	stroke: #CCCCCC;
 }
 
-.place-cost {
+.place-cost, .place-currency {
 	font-size: 14px;
 	stroke-width: 1px;
 	letter-spacing: 1.1px;
+}
+
+.place-currency{
+	font-size: 10px;
 }

@@ -52,15 +52,15 @@
             <td colspan="6" class="wrap-additional-control">
                 <div class="wrap-additional-links">
                     <span class="item-additional-link">
-                        <i class="link nutrition-link" onclick="moveToAdditionalPage('nutrition', 'KBP_TIA')"></i>
+                        <i class="link nutrition-link" onclick="historyGoToAdditional('nutrition', 'KBP_TIA')"></i>
                         <p class="additional-min-price" data-hash="KBP_TIA" data-service="nutrition">от: 0 грн</p>
                     </span>
                     <span class="item-additional-link">
-                        <i class="link baggages-link" onclick="moveToAdditionalPage('baggages', 'KBP_TIA')"></i>
+                        <i class="link baggages-link" onclick="historyGoToAdditional('baggages', 'KBP_TIA')"></i>
                         <p class="additional-min-price" data-hash="KBP_TIA" data-service="baggages">от: 0 грн</p>
                     </span>
                     <span class="item-additional-link">
-                        <i class="link place-link" onclick="moveToAdditionalPage('places', 'KBP_TIA')"></i>
+                        <i class="link place-link" onclick="historyGoToAdditional('places', 'KBP_TIA')"></i>
                         <p class="additional-min-price" data-hash="KBP_TIA" data-service="places">от: 0 грн</p>
                     </span>
                 </div>

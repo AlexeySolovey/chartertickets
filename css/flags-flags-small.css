@@ -1,0 +1,77 @@
+/**
+ * Created on : 2015.02.02., 16:43:29
+ * Author     : Lajos Molnar <lajax.m@gmail.com>
+ * FlagSprite : http://www.flag-sprites.com/
+ */
+
+.lang-selector.small i {
+	width: 16px;
+	height: 11px;
+    display:inline-block;
+	background-image:url('../images/flags-flags-small.png');
+    background-repeat: no-repeat;
+}
+
+.lang-selector.small i.ar, .lang-selector.small i.ar, .lang-selector.small i.ae , .lang-selector.small i.ar {background-position: -16px 0}
+.lang-selector.small i.ps, .lang-selector.small i.ps {background-position: -32px 0}
+.lang-selector.small i.sq, .lang-selector.small i.sq {background-position: -48px 0}
+.lang-selector.small i.hy, .lang-selector.small i.hy {background-position: -64px 0}
+.lang-selector.small i.az, .lang-selector.small i.az {background-position: -80px 0}
+.lang-selector.small i.bs, .lang-selector.small i.bs {background-position: -96px 0}
+.lang-selector.small i.bg, .lang-selector.small i.bg {background-position: -112px 0}
+.lang-selector.small i.pt {background-position: 0 -11px}
+.lang-selector.small i.be, .lang-selector.small i.be {background-position: -16px -11px}
+.lang-selector.small i.en, .lang-selector.small i.fr {background-position: -32px -11px}
+.lang-selector.small i.zh, .lang-selector.small i.zh {background-position: -48px -11px}
+.lang-selector.small i.cs, .lang-selector.small i.cs {background-position: -64px -11px}
+.lang-selector.small i.de, .lang-selector.small i.de {background-position: -80px -11px}
+.lang-selector.small i.da, .lang-selector.small i.da {background-position: -96px -11px}
+.lang-selector.small i.et, .lang-selector.small i.et {background-position: -112px -11px}
+.lang-selector.small i.es, .lang-selector.small i.eu, .lang-selector.small i.ca, .lang-selector.small i.gl, .lang-selector.small i.es {background-position: 0 -22px}
+.lang-selector.small i.fi, .lang-selector.small i.fi {background-position: -16px -22px}
+.lang-selector.small i.fo, .lang-selector.small i.fo {background-position: -32px -22px}
+.lang-selector.small i.fr, .lang-selector.small i.fr {background-position: -48px -22px}
+.lang-selector.small i.en, .lang-selector.small i.en, .lang-selector.small i.en, .lang-selector.small i.en, .lang-selector.small i.en {background-position: -64px -22px}
+.lang-selector.small i.ka, .lang-selector.small i.ka {background-position: -80px -22px}
+.lang-selector.small i.el, .lang-selector.small i.el {background-position: -96px -22px}
+.lang-selector.small i.zh {background-position: -112px -22px}
+.lang-selector.small i.hr, .lang-selector.small i.hr {background-position: 0 -33px}
+.lang-selector.small i.hu, .lang-selector.small i.hu {background-position: -16px -33px}
+.lang-selector.small i.id, .lang-selector.small i.id {background-position: -32px -33px}
+.lang-selector.small i.ga, .lang-selector.small i.ga {background-position: -48px -33px}
+.lang-selector.small i.he, .lang-selector.small i.he {background-position: -64px -33px}
+.lang-selector.small i.pa, .lang-selector.small i.ta, .lang-selector.small i.te, .lang-selector.small i.hi, .lang-selector.small i.bn, .lang-selector.small i.ml, .lang-selector.small i.hi {background-position: -80px -33px}
+.lang-selector.small i.fa, .lang-selector.small i.fa {background-position: -96px -33px}
+.lang-selector.small i.is, .lang-selector.small i.is {background-position: -112px -33px}
+.lang-selector.small i.it, .lang-selector.small i.it {background-position: 0 -44px}
+.lang-selector.small i.ja, .lang-selector.small i.jp {background-position: -16px -44px}
+.lang-selector.small i.sw, .lang-selector.small i.sw  {background-position: -32px -44px}
+.lang-selector.small i.km, .lang-selector.small i.km {background-position: -48px -44px}
+.lang-selector.small i.ko, .lang-selector.small i.ko {background-position: -64px -44px}
+.lang-selector.small i.ku, .lang-selector.small i.ku {background-position: -80px -44px}
+.lang-selector.small i.es {background-position: -96px -44px}
+.lang-selector.small i.fb, .lang-selector.small i.lt, .lang-selector.small i.lt {background-position: -112px -44px}
+.lang-selector.small i.lv, .lang-selector.small i.lv {background-position: 0 -55px}
+.lang-selector.small i.mk, .lang-selector.small i.mk {background-position: -16px -55px}
+.lang-selector.small i.ms, .lang-selector.small i.ms {background-position: -32px -55px}
+.lang-selector.small i.nl, .lang-selector.small i.fy, .lang-selector.small i.nl {background-position: -48px -55px}
+.lang-selector.small i.nn, .lang-selector.small i.nb, .lang-selector.small i.nb.flag.flag-no {background-position: -64px -55px}
+.lang-selector.small i.ne, .lang-selector.small i.ne {background-position: -80px -55px}
+.lang-selector.small i.tl, .lang-selector.small i.tl {background-position: -96px -55px}
+.lang-selector.small i.pl, .lang-selector.small i.pl {background-position: -112px -55px}
+.lang-selector.small i.pt, .lang-selector.small i.pt {background-position: 0 -66px}
+.lang-selector.small i.ro, .lang-selector.small i.ro {background-position: -16px -66px}
+.lang-selector.small i.sr, .lang-selector.small i.sr {background-position: -32px -66px}
+.lang-selector.small i.ru, .lang-selector.small i.ru {background-position: -48px -66px}
+.lang-selector.small i.sv, .lang-selector.small i.sv {background-position: -64px -66px}
+.lang-selector.small i.sl, .lang-selector.small i.sl {background-position: -80px -66px}
+.lang-selector.small i.sk, .lang-selector.small i.sk {background-position: -96px -66px}
+.lang-selector.small i.th, .lang-selector.small i.th {background-position: -112px -66px}
+.lang-selector.small i.tr, .lang-selector.small i.tr {background-position: 0 -77px}
+.lang-selector.small i.zh {background-position: -16px -77px}
+.lang-selector.small i.uk, .lang-selector.small i.uk {background-position: -32px -77px}
+.lang-selector.small i.en {background-position: -48px -77px}
+.lang-selector.small i.la, .lang-selector.small i.la {background-position: -64px -77px}
+.lang-selector.small i.vi, .lang-selector.small i.vi {background-position: -80px -77px}
+.lang-selector.small i.cy, .lang-selector.small i.cy {background-position: -96px -77px}
+.lang-selector.small i.af, .lang-selector.small i.af {background-position: -112px -77px}
