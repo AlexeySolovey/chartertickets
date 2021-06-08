@@ -1785,15 +1785,10 @@ function addDiscount() {
     }
 }
 
-function historyGoToAdditional(service, hash) {
-    addHistory('additional');
-    moveToAdditionalPage(service, hash)
-}
-
 function addHistory(page) {
     page ? 
-    history.pushState('additioal', null, '/order#' + page):
-    history.pushState('additioal', null, '/order');
+    history.pushState('additioal', null, '?' + page):
+    history.pushState('additioal', null, '');
 }
 
 function reloadPage() {

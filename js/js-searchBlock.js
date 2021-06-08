@@ -113,7 +113,7 @@ function updateQueryParam(key, value) {
         }
     })
 
-    queryString = queryString.slice(0, queryString.length - 1)
+    queryString = queryString.slice(0, queryString.length - 1);
 
     history.replaceState(null, '', window.location.pathname + '?' + queryString)
     saveQueryString(queryString)
@@ -121,7 +121,7 @@ function updateQueryParam(key, value) {
 
 function removeQueryParam(key) {
     const queryParam = new URLSearchParams(window.location.search)
-    queryParam.delete(key)
+    queryParam.delete(key);
     history.replaceState(null, '', window.location.pathname + '?' + queryParam.toString())
     saveQueryString(queryParam.toString())
 
@@ -585,7 +585,7 @@ const searchComponent = {
         }
     },
 
-    onDepartureCityInput(event) {
+    onDepartureCityInput(elValue) {
         this.removeDepartureCountry()
         this.removeDepartureCity(true)
         this.removeArrivalCountry()
@@ -594,11 +594,11 @@ const searchComponent = {
         // find countries by cities
         let departureCities = this.directions[this.tripType].map(item => item.split(';')[0])
 
-        departureCities = departureCities.filter(city => this._inputFilter(city, event.target.value))
+        departureCities = departureCities.filter(city => this._inputFilter(city, elValue))
 
         this._setCountriesByCities(departureCities, 'from')
 
-        if (event.target.value === '') {
+        if (elValue === '') {
             this._setCitiesArray([], 'from')
             return
         }
@@ -613,13 +613,13 @@ const searchComponent = {
         )
         this._setCitiesArray(citiesArray, 'from')
 
-        if (citiesArray.length === 1 && event.target.value.toLowerCase() === citiesArray[0].name.toLowerCase()) {
+        if (citiesArray.length === 1 && elValue.toLowerCase() === citiesArray[0].name.toLowerCase()) {
             this.selectDepartureCountry(this.cities[citiesArray[0].code].country.alias)
             this.selectDepartureCity(citiesArray[0].code)
         }
     },
 
-    onArrivalCityInput(event) {
+    onArrivalCityInput(elValue) {
         this.removeArrivalCountry()
         this.removeArrivalCity(true)
 
@@ -630,11 +630,11 @@ const searchComponent = {
         // find countries by cities
         let arrivalCities = this.directions[this.tripType].filter(item => item.split(';')[0] === this.departureCityCode)
         arrivalCities = arrivalCities.map(item => item.split(';')[1])
-        arrivalCities = arrivalCities.filter(key => this._inputFilter(key, event.target.value))
+        arrivalCities = arrivalCities.filter(key => this._inputFilter(key, elValue))
 
         this._setCountriesByCities(arrivalCities, 'to')
 
-        if (event.target.value === '') {
+        if (elValue === '') {
             this._setCitiesArray([], 'to')
             return
         }
@@ -649,7 +649,7 @@ const searchComponent = {
         )
         this._setCitiesArray(citiesArray, 'to')
 
-        if (citiesArray.length === 1 && event.target.value.toLowerCase() === citiesArray[0].name.toLowerCase()) {
+        if (citiesArray.length === 1 && elValue.toLowerCase() === citiesArray[0].name.toLowerCase()) {
             this.selectArrivalCountry(this.cities[citiesArray[0].code].country.alias)
             this.selectArrivalCity(citiesArray[0].code)
         }
@@ -1132,17 +1132,17 @@ const searchComponent = {
             $('.popup-to').addClass('hide')
         })
 
-        $('.change-direction').on('click', () => {
-            this.changeDirection()
-        })
+        // $('.change-direction').on('click', () => {
+        //     this.changeDirection()
+        // })
 
         $('.trip-type').on('click', event => {
             this.selectTripType(event.target.value)
         })
 
-        $('input#fly-from').on('input', event => {
-            this.onDepartureCityInput(event)
-        })
+        //$('input#fly-from').on('change', event => {
+        //    this.onDepartureCityInput(event)
+        //})
         $('input#fly-to').on('input', event => {
             this.onArrivalCityInput(event)
         })

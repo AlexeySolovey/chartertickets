@@ -65,11 +65,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                            <a class="navbar-brand page-scroll" href=".html">
-                    <i class="fa fa-paper-plane-o fa-2x"></i>
-                    CharterTickets
-                </a>
-                    </div>
+            <a class="navbar-brand page-scroll" href=".html">
+                <i class="fa fa-paper-plane-o fa-2x"></i>
+                CharterTickets
+            </a>
+        </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                 <li class="hidden">
@@ -78,24 +78,23 @@
                 <li>
                     <a class="page-scroll" href="anytickets.com.html">Бронирование</a>
                 </li>
-                                    <li>
-                        <a class="page-scroll" href="tickets_on_request.html">Билеты под запрос</a>
-                    </li>
-                                                    <li>
-                        <a class="page-scroll" href="rules.html">Условия и правила</a>
-                    </li>
-                                                    <li>
-                        <a class="page-scroll" href="collaboration.html">Сотрудничество</a>
-                    </li>
-                                <li>
+                <li>
+                    <a class="page-scroll" href="tickets_on_request.html">Билеты под запрос</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="rules.html">Условия и правила</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="collaboration.html">Сотрудничество</a>
+                </li>
+                <li>
                     <a class="page-scroll" href="contacts.html">Контакты</a>
                 </li>
-                                    <li>
-                        <a class="page-scroll" href="reviews.html">Отзывы</a>
-                    </li>
-                                                                            
-            &gt;
-        </ul></div>
+                <li>
+                    <a class="page-scroll" href="reviews.html">Отзывы</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 <div class="modalInner hidden">
@@ -190,7 +189,7 @@
                             <div class="row-container">
                                 <div class="form-group">
                                     <!--<label for="fly-from">&#1054;&#1090;&#1082;&#1091;&#1076;&#1072; ?</label>-->
-                                    <input type="text" class="form-control" id="fly-from" placeholder="Откуда ?" autocomplete="off">
+                                    <input type="text" class="form-control" id="fly-from" oninput="searchComponent.onDepartureCityInput(this.value)"  placeholder="Откуда ?" autocomplete="off">
                                     <div class="popup popup-from hide">
                                         <div class="triangle"></div>
                                         <div class="popup-pick-country">
@@ -208,13 +207,13 @@
                                     </div>
                                 </div>
                                 <div class="row text-center">
-                                    <a href="#" class="btn text-center change-direction" style="padding-right: 10px; margin-right: 2rem; font-size: 25px;">
+                                    <a href="#" class="btn text-center change-direction" onclick="searchComponent.changeDirection()" style="padding-right: 10px; margin-right: 2rem; font-size: 25px;">
                                         <span class="glyphicon glyphicon-refresh" style=" display: inline-block; vertical-align: middle;"></span>
                                     </a>
                                 </div>
                                 <div class="form-group">
                                     <!--<label for="fly-to">&#1050;&#1091;&#1076;&#1072; ?</label>-->
-                                    <input type="text" class="form-control" id="fly-to" placeholder="Куда ?" autocomplete="off">
+                                    <input type="text" class="form-control" id="fly-to" oninput="searchComponent.onArrivalCityInput(this.value)" placeholder="Куда ?" autocomplete="off">
                                     <div class="popup popup-to hide">
                                         <div class="triangle"></div>
                                         <div class="popup-pick-country">
@@ -319,7 +318,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Уведомление                </h4></div>
+                    <h4 class="modal-title" id="myModalLabel">Уведомление</h4></div>
                 <div class="modal-body">
                     <div>
                         <p id="text-info">
@@ -344,8 +343,8 @@
                 <div class="modal-body">
                     <div>
                         <p id="text-info">
-                            9 и более пассажиров в большинстве авиакомпаний является групповым бронированием.                            Для создания группового бронирования и просчета актуальной стоимости авиабилетов для группы, пожалуйста, напишите нам на почту <a class="color-green" href="/cdn-cgi/l/email-protection#a9c0c7cfc6e9cac1c8dbddccdbddc0cac2ccddda87cac6c487dcc8"><span class="__cf_email__" data-cfemail="3950575f56795a51584b4d5c4b4d505a525c4d4a175a5654174c58">[email protected]</span></a> или позвоните: <a class="color-green" href="tel:+380680646924">+380 68 06 46 924</a>                        </p>
-
+                            9 и более пассажиров в большинстве авиакомпаний является групповым бронированием.                            Для создания группового бронирования и просчета актуальной стоимости авиабилетов для группы, пожалуйста, напишите нам на почту <a class="color-green" href="/cdn-cgi/l/email-protection#a9c0c7cfc6e9cac1c8dbddccdbddc0cac2ccddda87cac6c487dcc8"><span class="__cf_email__" data-cfemail="3950575f56795a51584b4d5c4b4d505a525c4d4a175a5654174c58">[email protected]</span></a> или позвоните: <a class="color-green" href="tel:+380680646924">+380 68 06 46 924</a>
+                        </p>
                     </div>
                 </div>
                 <div class="modal-footer">
