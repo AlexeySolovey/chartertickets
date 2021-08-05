@@ -113,7 +113,7 @@ function updateQueryParam(key, value) {
         }
     })
 
-    queryString = queryString.slice(0, queryString.length - 1);
+    queryString = queryString.slice(0, queryString.length - 1)
 
     history.replaceState(null, '', window.location.pathname + '?' + queryString)
     saveQueryString(queryString)
@@ -121,7 +121,7 @@ function updateQueryParam(key, value) {
 
 function removeQueryParam(key) {
     const queryParam = new URLSearchParams(window.location.search)
-    queryParam.delete(key);
+    queryParam.delete(key)
     history.replaceState(null, '', window.location.pathname + '?' + queryParam.toString())
     saveQueryString(queryParam.toString())
 

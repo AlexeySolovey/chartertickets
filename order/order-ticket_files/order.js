@@ -1941,6 +1941,8 @@ function promo_del() {
  payment
  **********************/
 function liqPayInit(data) {
+    window.paymentData = data;
+    
     if (liqRes) {
         liqRes = LiqPayCheckout.init({
             data     : data.data,
@@ -1955,7 +1957,8 @@ function liqPayInit(data) {
             embedTo  : "#liqpay_checkout",
             mode     : "embed" // embed || popup
         }).on("liqpay.callback", (data1) => {
-            successPayment(data);
+            
+            successPayment(window.paymentData);
 
             // $('#modal-pay #our-fin-text').show();
             // finBuy = 1;
@@ -2071,10 +2074,11 @@ function fondyCallbackDefault(paymentData) {
 }
 
 function fondyCheckoutInit(url, paymentData) {
+    window.paymentData = paymentData;
     $ipsp('checkout').scope(function () {
         this.setCheckoutWrapper('#checkout_fondy_wrapper');
         this.addCallback((data)=>{
-            if (!data.error){
+            if (!data.error && window.paymentData.order_id === paymentData.order_id){
                 successPayment(paymentData)
             }
         }); // callback

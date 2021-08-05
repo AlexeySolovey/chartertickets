@@ -9,7 +9,7 @@
         
         
         <!-- BUS_KBP -->
-        <div class="result-data" id="page-info" style="display: none;" data-show-welcome="0" data-fly-property-to-id="81083193" data-result-expired-at="1615891323" data-count-adults="1" data-count-children="0" data-count-childes="0"></div>
+        <div class="result-data" id="page-info" style="display: none;" data-show-welcome="0" data-fly-property-to-id="112877038" data-result-expired-at="1615891323" data-count-adults="1" data-count-children="0" data-count-childes="0"></div>
         <!-- <span class="float-right">
             timer:  <div id="expirationTimer"></div>
         </span> -->
